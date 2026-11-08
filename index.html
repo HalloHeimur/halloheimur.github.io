@@ -1,23 +1,1051 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="./css/style.css">
-    <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <title>Halló heimur!</title>
-    <link rel="icon" href="./images/favicon.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Halló Heimur — We Do Things</title>
+    <meta name="description" content="Halló Heimur. A company. Probably." />
+    <style>
+      :root {
+        --ink: #111111;
+        --paper: #f6f1e5;
+        --yellow: #ffd02f;
+        --pink: #ff8fc7;
+        --purple: #b39cff;
+        --blue: #7eb9ff;
+        --green: #5fd97b;
+        --orange: #ffa143;
+        --red: #ff6b6b;
+        --cream: #fffbe9;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Archivo", "Arial Black", "Arial Bold", "Helvetica Neue", system-ui, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+        overflow-x: hidden;
+      }
+
+      h1, h2, h3, h4 {
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1.02;
+      }
+
+      p {
+        font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
+        font-weight: 500;
+        line-height: 1.55;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* ---------- reusable neobrutalist bits ---------- */
+
+      .nb {
+        border: 3px solid var(--ink);
+        box-shadow: 6px 6px 0 var(--ink);
+        border-radius: 14px;
+        background: var(--cream);
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 14px 26px;
+        border: 3px solid var(--ink);
+        border-radius: 12px;
+        box-shadow: 5px 5px 0 var(--ink);
+        font-family: inherit;
+        font-weight: 900;
+        font-size: 15px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+        background: var(--yellow);
+        transition: transform 0.08s ease, box-shadow 0.08s ease;
+        user-select: none;
+      }
+
+      .btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 7px 7px 0 var(--ink);
+      }
+
+      .btn:active {
+        transform: translate(3px, 3px);
+        box-shadow: 2px 2px 0 var(--ink);
+      }
+
+      .btn.pink { background: var(--pink); }
+      .btn.blue { background: var(--blue); }
+      .btn.purple { background: var(--purple); }
+      .btn.ghost { background: var(--cream); }
+
+      .badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border: 3px solid var(--ink);
+        border-radius: 999px;
+        box-shadow: 4px 4px 0 var(--ink);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: var(--green);
+      }
+
+      .section-tag {
+        display: inline-block;
+        padding: 8px 18px;
+        border: 3px solid var(--ink);
+        border-radius: 999px;
+        box-shadow: 5px 5px 0 var(--ink);
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: var(--yellow);
+        margin-bottom: 28px;
+      }
+
+      /* ---------- nav ---------- */
+
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--paper);
+        border-bottom: 3px solid var(--ink);
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 900;
+        font-size: 20px;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+      }
+
+      .logo-box {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--ink);
+        border-radius: 10px;
+        box-shadow: 4px 4px 0 var(--ink);
+        background: var(--yellow);
+        display: grid;
+        place-items: center;
+        font-size: 20px;
+        transition: transform 0.15s ease;
+      }
+
+      .logo:active .logo-box {
+        transform: rotate(-8deg) scale(1.05);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .nav-links a {
+        padding: 8px 14px;
+        font-weight: 900;
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border: 3px solid transparent;
+        border-radius: 10px;
+      }
+
+      .nav-links a:hover {
+        border: 3px solid var(--ink);
+        background: var(--purple);
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+
+      .nav-cta {
+        padding: 10px 20px !important;
+        font-size: 13px !important;
+      }
+
+      /* ---------- hero ---------- */
+
+      .hero {
+        position: relative;
+        padding: 90px 24px 70px;
+        max-width: 1100px;
+        margin: 0 auto;
+        overflow: visible;
+      }
+
+      .hero-badges {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+      }
+
+      .hero h1 {
+        font-size: clamp(56px, 11vw, 130px);
+        text-transform: uppercase;
+      }
+
+      .hero h1 .word-2 {
+        display: inline-block;
+        padding: 0 0.12em;
+        margin-left: 0.08em;
+        background: var(--yellow);
+        border: 5px solid var(--ink);
+        border-radius: 22px;
+        box-shadow: 10px 10px 0 var(--ink);
+        transform: rotate(-2deg);
+      }
+
+      .hero-sub {
+        margin-top: 40px;
+        max-width: 560px;
+        font-size: 19px;
+      }
+
+      .rotator-line {
+        margin-top: 34px;
+        font-size: clamp(18px, 3vw, 26px);
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      #rotator {
+        display: inline-block;
+        min-width: 8ch;
+        padding: 6px 16px;
+        background: var(--pink);
+        border: 3px solid var(--ink);
+        border-radius: 12px;
+        box-shadow: 5px 5px 0 var(--ink);
+        text-align: center;
+        transition: transform 0.12s ease;
+      }
+
+      #rotator.pop {
+        transform: rotate(3deg) scale(1.06);
+      }
+
+      .hero-ctas {
+        margin-top: 44px;
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      /* floating shapes */
+
+      .shape {
+        position: absolute;
+        border: 3px solid var(--ink);
+        z-index: -1;
+      }
+
+      .shape.star {
+        border: none;
+        font-size: 56px;
+        filter: drop-shadow(4px 4px 0 var(--ink));
+      }
+
+      .shape.circle {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 6px 6px 0 var(--ink);
+        top: 90px;
+        right: 6%;
+      }
+
+      .shape.square {
+        width: 64px;
+        height: 64px;
+        background: var(--purple);
+        border-radius: 12px;
+        box-shadow: 6px 6px 0 var(--ink);
+        bottom: 60px;
+        right: 16%;
+        transform: rotate(12deg);
+      }
+
+      .shape.zig {
+        bottom: 30px;
+        right: 4%;
+        font-size: 44px;
+        font-weight: 900;
+      }
+
+      @media (max-width: 720px) {
+        .shape { display: none; }
+      }
+
+      /* ---------- marquee ---------- */
+
+      .marquee {
+        background: var(--ink);
+        color: var(--yellow);
+        border-top: 3px solid var(--ink);
+        border-bottom: 3px solid var(--ink);
+        overflow: hidden;
+        transform: rotate(-1deg) scale(1.02);
+        padding: 14px 0;
+      }
+
+      .marquee-track {
+        display: flex;
+        gap: 0;
+        white-space: nowrap;
+        width: max-content;
+        animation: scroll 28s linear infinite;
+      }
+
+      .marquee span {
+        font-weight: 900;
+        font-size: 18px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 0 18px;
+      }
+
+      .marquee .dot { color: var(--pink); }
+
+      @keyframes scroll {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+      }
+
+      /* ---------- sections ---------- */
+
+      section {
+        padding: 90px 0;
+      }
+
+      .section-title {
+        font-size: clamp(34px, 6vw, 60px);
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .section-note {
+        max-width: 520px;
+        font-size: 16px;
+        margin-bottom: 48px;
+      }
+
+      /* what we do grid */
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 28px;
+      }
+
+      .card {
+        padding: 28px;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+      }
+
+      .card:hover {
+        transform: translate(-3px, -3px);
+        box-shadow: 9px 9px 0 var(--ink);
+      }
+
+      .card-icon {
+        width: 58px;
+        height: 58px;
+        border: 3px solid var(--ink);
+        border-radius: 14px;
+        box-shadow: 4px 4px 0 var(--ink);
+        display: grid;
+        place-items: center;
+        font-size: 26px;
+        margin-bottom: 20px;
+      }
+
+      .card h3 {
+        font-size: 21px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .card p {
+        font-size: 15px;
+      }
+
+      .card .maybe {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 4px 12px;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: var(--cream);
+      }
+
+      /* numbered services */
+
+      .rows {
+        border: 3px solid var(--ink);
+        border-radius: 18px;
+        box-shadow: 8px 8px 0 var(--ink);
+        background: var(--cream);
+        overflow: hidden;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 26px 28px;
+        border-bottom: 3px solid var(--ink);
+        transition: background 0.12s ease, padding-left 0.12s ease;
+      }
+
+      .row:last-child { border-bottom: none; }
+
+      .row:hover {
+        background: var(--yellow);
+        padding-left: 40px;
+      }
+
+      .row .num {
+        font-size: 15px;
+        font-weight: 900;
+        padding: 6px 12px;
+        border: 3px solid var(--ink);
+        border-radius: 10px;
+        background: var(--purple);
+        box-shadow: 3px 3px 0 var(--ink);
+        flex-shrink: 0;
+      }
+
+      .row h3 {
+        font-size: clamp(18px, 3vw, 26px);
+        text-transform: uppercase;
+        flex: 1;
+      }
+
+      .row p {
+        font-size: 14px;
+        max-width: 320px;
+        text-align: right;
+      }
+
+      @media (max-width: 640px) {
+        .row { flex-direction: column; align-items: flex-start; gap: 10px; }
+        .row p { text-align: left; }
+      }
+
+      /* stats */
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 28px;
+      }
+
+      .stat {
+        padding: 26px;
+        text-align: center;
+      }
+
+      .stat .big {
+        font-size: clamp(30px, 4vw, 44px);
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.05;
+      }
+
+      .stat .label {
+        margin-top: 10px;
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* manifesto */
+
+      .manifesto {
+        border: 3px solid var(--ink);
+        border-radius: 20px;
+        box-shadow: 10px 10px 0 var(--ink);
+        background: var(--purple);
+        padding: clamp(36px, 6vw, 72px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .manifesto h2 {
+        font-size: clamp(26px, 4.5vw, 46px);
+        text-transform: uppercase;
+        line-height: 1.15;
+      }
+
+      .manifesto .hl {
+        background: var(--ink);
+        color: var(--yellow);
+        padding: 0 12px;
+        border-radius: 10px;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+
+      .manifesto .foot {
+        margin-top: 28px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 13px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .manifesto .foot .badge { background: var(--yellow); }
+
+      /* quote */
+
+      .quote-box {
+        border: 3px solid var(--ink);
+        border-radius: 20px;
+        box-shadow: 10px 10px 0 var(--ink);
+        background: var(--pink);
+        padding: clamp(44px, 7vw, 80px) clamp(28px, 5vw, 60px);
+        position: relative;
+        text-align: center;
+      }
+
+      .quote-mark {
+        position: absolute;
+        top: -40px;
+        left: 30px;
+        width: 78px;
+        height: 78px;
+        display: grid;
+        place-items: center;
+        font-size: 64px;
+        font-weight: 900;
+        line-height: 1;
+        background: var(--yellow);
+        border: 3px solid var(--ink);
+        border-radius: 18px;
+        box-shadow: 6px 6px 0 var(--ink);
+        transform: rotate(-6deg);
+      }
+
+      .quote-text {
+        font-size: clamp(28px, 5.5vw, 56px);
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.12;
+      }
+
+      .quote-foot {
+        margin-top: 30px;
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .quote-note {
+        margin-top: 28px;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      /* contact */
+
+      .contact-box {
+        border: 3px solid var(--ink);
+        border-radius: 20px;
+        box-shadow: 10px 10px 0 var(--ink);
+        background: var(--blue);
+        padding: clamp(36px, 6vw, 72px);
+        text-align: center;
+      }
+
+      .contact-box h2 {
+        font-size: clamp(36px, 8vw, 76px);
+        text-transform: uppercase;
+      }
+
+      .contact-box p {
+        margin: 18px auto 34px;
+        max-width: 460px;
+        font-weight: 600;
+      }
+
+      .contact-form {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .contact-form input {
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 15px;
+        padding: 14px 18px;
+        border: 3px solid var(--ink);
+        border-radius: 12px;
+        box-shadow: 5px 5px 0 var(--ink);
+        background: var(--cream);
+        min-width: min(320px, 100%);
+        outline: none;
+      }
+
+      .contact-form input:focus {
+        box-shadow: 5px 5px 0 var(--pink);
+      }
+
+      #form-note {
+        margin-top: 26px;
+        display: none;
+        padding: 16px 22px;
+        border: 3px solid var(--ink);
+        border-radius: 12px;
+        box-shadow: 6px 6px 0 var(--ink);
+        background: var(--yellow);
+        font-weight: 900;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      /* footer */
+
+      footer {
+        border-top: 3px solid var(--ink);
+        background: var(--ink);
+        color: var(--paper);
+        padding: 50px 24px 40px;
+      }
+
+      .footer-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+
+      .footer-logo {
+        font-weight: 900;
+        font-size: 26px;
+        text-transform: uppercase;
+      }
+
+      .footer-logo .box {
+        display: inline-grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border: 3px solid var(--paper);
+        border-radius: 8px;
+        background: var(--yellow);
+        color: var(--ink);
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      footer ul {
+        list-style: none;
+      }
+
+      footer li {
+        font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        text-decoration-color: var(--pink);
+      }
+
+      .footer-bottom {
+        max-width: 1100px;
+        margin: 40px auto 0;
+        padding-top: 24px;
+        border-top: 2px solid rgba(246, 241, 229, 0.3);
+        font-size: 12px;
+        font-weight: 600;
+        font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+    </style>
   </head>
   <body>
-    <main>
-      <aside class = "left">
-        <a href="https://github.com/halloheimur" target="_blank"><img src="./images/hh_velmenni_320.png" alt="An 8-bit Sverrir"> </a>
-      </aside>
-      <section class = "right">
-        <h2>Halló heimur! </h2>
-        
-        <p>Þetta er vefur sem <u>mun</u> hýsa efni ætlað tölvukörlum og [tölvu]kerlingum</p>
-    
-      </section>
-    </main>
+
+    <!-- ============ NAV ============ -->
+    <nav>
+      <div class="nav-inner">
+        <a class="logo" href="#top" id="logo" title="Click me. Go on.">
+          <span class="logo-box" id="logo-box">▚</span>
+          HALLÓ HEIMUR
+        </a>
+        <div class="nav-links">
+          <a href="#what">What we do</a>
+          <a href="#services">Services</a>
+          <a href="#about">About</a>
+          <a class="btn pink nav-cta" href="#contact">Say halló</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <header class="hero" id="top">
+      <div class="shape circle"></div>
+      <div class="shape square"></div>
+      <span class="shape star" style="top: 40px; right: 24%;">★</span>
+      <span class="shape zig" style="bottom: 120px; right: 8%;">~</span>
+
+      <div class="hero-badges">
+        <span class="badge">A company, probably</span>
+        <span class="badge" style="background: var(--purple);">Est. eventually</span>
+        <span class="badge" style="background: var(--blue);">Software? Yes</span>
+      </div>
+
+      <h1>HALLÓ <span class="word-2" id="hero-word">HEIMUR</span></h1>
+
+      <p class="hero-sub">
+        Halló Heimur means <strong>“Hello, World.”</strong> It’s the first thing
+        every programmer ever says. It’s also the first thing we say to you.
+        Beyond that, all we can promise is: something is happening here.
+      </p>
+
+      <div class="rotator-line">
+        WE DO
+        <span id="rotator">SOFTWARE</span>
+        <span id="rotator-note" style="font-size: 14px; font-weight: 700;">(and other things)</span>
+      </div>
+
+      <div class="hero-ctas">
+        <a class="btn pink" href="#contact">Get in touch</a>
+        <a class="btn ghost" href="#what">Figure us out ↓</a>
+      </div>
+    </header>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marquee-track">
+        <span>SOFTWARE</span><span class="dot">●</span>
+        <span>CONSULTING</span><span class="dot">●</span>
+        <span>STRATEGY</span><span class="dot">●</span>
+        <span>SOMETHING</span><span class="dot">●</span>
+        <span>EVERYTHING</span><span class="dot">●</span>
+        <span>????</span><span class="dot">●</span>
+        <span>BIG IDEAS</span><span class="dot">●</span>
+        <span>SMALL IDEAS</span><span class="dot">●</span>
+        <span>MEDIUM-SIZED IDEAS</span><span class="dot">●</span>
+      </div>
+    </div>
+
+    <!-- ============ WHAT WE DO ============ -->
+    <section id="what">
+      <div class="wrap">
+        <span class="section-tag" style="background: var(--pink);">The honest part</span>
+        <h2 class="section-title">What we do<span style="color: var(--red);">*</span></h2>
+        <p class="section-note"><span style="color: var(--red);">*</span> Results may vary. Scope subject to change. All of this is true, some of the time.</p>
+
+        <div class="grid">
+          <div class="card nb">
+            <div class="card-icon" style="background: var(--yellow);">💻</div>
+            <h3>Software</h3>
+            <p>We write code. Sometimes it even compiles. It usually does the thing it was supposed to do, and occasionally it does other things too.</p>
+            <span class="maybe">Confidence: high</span>
+          </div>
+          <div class="card nb">
+            <div class="card-icon" style="background: var(--pink);">🧠</div>
+            <h3>Consulting</h3>
+            <p>We think about your problems so you don’t have to. Then we present the thoughts. As slides. Or as a very long email, if you prefer.</p>
+            <span class="maybe">Confidence: medium</span>
+          </div>
+          <div class="card nb">
+            <div class="card-icon" style="background: var(--purple);">🌍</div>
+            <h3>World Things</h3>
+            <p>“Heimur” means world. So naturally, world stuff. Global reach, planetary ambition, and a website you are currently on.</p>
+            <span class="maybe">Confidence: cosmic</span>
+          </div>
+          <div class="card nb">
+            <div class="card-icon" style="background: var(--blue);">⚙️</div>
+            <h3>Automation</h3>
+            <p>We automate things. Tedious things, weird things, things you didn’t know could be automated. This sentence was not automated. Probably.</p>
+            <span class="maybe">Confidence: robotic</span>
+          </div>
+          <div class="card nb">
+            <div class="card-icon" style="background: var(--green);">🔮</div>
+            <h3>The Future</h3>
+            <p>Whatever we end up building, we promise it will exist. That’s more than most futures can say. Future-proofing included at no extra charge.</p>
+            <span class="maybe">Confidence: inevitable</span>
+          </div>
+          <div class="card nb">
+            <div class="card-icon" style="background: var(--orange);">✨</div>
+            <h3>Vibes</h3>
+            <p>Every company has a product. Very few have vibes. We have vibes. This card is proof. It’s giving neobrutalism, and we stand by that.</p>
+            <span class="maybe">Confidence: immaculate</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section id="services" style="background: var(--cream); border-top: 3px solid var(--ink); border-bottom: 3px solid var(--ink);">
+      <div class="wrap">
+        <span class="section-tag" style="background: var(--blue);">The menu</span>
+        <h2 class="section-title">Services, roughly</h2>
+        <p class="section-note">A non-exhaustive, fully-negotiable list of things we could hypothetically do for you.</p>
+
+        <div class="rows">
+          <div class="row">
+            <span class="num">01</span>
+            <h3>Software Development</h3>
+            <p>Custom software, web things, and various electric programs.</p>
+          </div>
+          <div class="row">
+            <span class="num">02</span>
+            <h3>Consulting</h3>
+            <p>We advise. On what? Great question. Together we’ll find out.</p>
+          </div>
+          <div class="row">
+            <span class="num">03</span>
+            <h3>Something Else</h3>
+            <p>This slot is intentionally left blank. Make us an offer.</p>
+          </div>
+          <div class="row">
+            <span class="num">04</span>
+            <h3>Everything</h3>
+            <p>Terms and conditions apply. Nobody has read them. Not even us.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STATS + MANIFESTO ============ -->
+    <section id="about">
+      <div class="wrap">
+        <span class="section-tag" style="background: var(--green);">By the numbers</span>
+        <h2 class="section-title">Very real statistics</h2>
+        <p class="section-note">Numbers we compiled ourselves, about ourselves, for ourselves. Sharing is caring.</p>
+
+        <div class="stats">
+          <div class="stat nb" style="background: var(--yellow);">
+            <div class="big">∞</div>
+            <div class="label">Possibilities</div>
+          </div>
+          <div class="stat nb" style="background: var(--pink);">
+            <div class="big">100%</div>
+            <div class="label">Halló, 100% Heimur</div>
+          </div>
+          <div class="stat nb" style="background: var(--blue);">
+            <div class="big">24/7</div>
+            <div class="label">Online (this website at least)</div>
+          </div>
+          <div class="stat nb" style="background: var(--green);">
+            <div class="big">0</div>
+            <div class="label">Robots involved in this copy</div>
+          </div>
+        </div>
+
+        <div style="height: 48px;"></div>
+
+        <div class="manifesto">
+          <h2>
+            We believe a company should be like a good function:
+            <span class="hl">small, focused, doing exactly one thing.</span>
+            We are not that company. <span class="hl">We do everything.</span>
+          </h2>
+          <div class="foot">
+            <span class="badge">The Halló Heimur Manifesto</span>
+            <span>Draft 1 of 1 · Subject to change · Was never really final anyway</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ QUOTE ============ -->
+    <section id="philosophy" style="background: var(--cream); border-top: 3px solid var(--ink);">
+      <div class="wrap">
+        <span class="section-tag" style="background: var(--orange);">Our philosophy</span>
+        <h2 class="section-title">To quote the great Brian Fantana…</h2>
+
+        <div class="quote-box">
+          <span class="quote-mark">“</span>
+          <blockquote class="quote-text">
+            “60% of the time, it works every time.”
+          </blockquote>
+          <div class="quote-foot">
+            <span class="badge" style="background: var(--pink);">Brian Fantana</span>
+            <span>Legendary newsman &amp; cologne visionary, <em>Anchorman</em> (2004)</span>
+          </div>
+        </div>
+
+        <p class="quote-note">
+          We cannot confirm this is also our success rate. We cannot deny it, either.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" style="padding-bottom: 110px;">
+      <div class="wrap">
+        <div class="contact-box">
+          <h2>Say halló<span style="color: var(--pink);">.</span></h2>
+          <p>
+            Whether you need software, a consultant, or just someone who
+            answers emails enthusiastically — we’re listening.
+          </p>
+          <form class="contact-form" id="the-form">
+            <input type="email" id="the-email" placeholder="your@email.com" aria-label="Your email" required />
+            <button class="btn" type="submit">Send it →</button>
+          </form>
+          <div id="form-note" role="status">
+            Halló! We got your email. (Well — not really. This is a landing page. Get in touch for real soon, though.)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo"><span class="box">▚</span>Halló Heimur</div>
+          <p style="margin-top: 14px; font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 600; font-size: 14px; max-width: 300px;">
+            Hello, World. Goodbye, ambiguity. (We’re still working on the second part.)
+          </p>
+        </div>
+        <ul>
+          <li><strong style="font-weight: 900; text-transform: uppercase;">Site</strong></li>
+          <li><a href="#what">What we do</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <ul>
+          <li><strong style="font-weight: 900; text-transform: uppercase;">Legal-ish</strong></li>
+          <li><a href="#top">Terms (imaginary)</a></li>
+          <li><a href="#top">Privacy (we barely know you)</a></li>
+          <li><a href="#top">Cookies (we ate them)</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Halló Heimur. Some rights reserved.</span>
+        <span>Made with 3px borders and 6px shadows.</span>
+      </div>
+    </footer>
+
+    <script>
+      // ---- rotating hero word ----
+      var words = [
+        "SOFTWARE", "WEBSITES", "IDEAS", "STRATEGY", "AUTOMATION",
+        "THE FUTURE", "STUFF", "THINGS", "EVERYTHING", "???"
+      ];
+      var notes = [
+        "(and other things)",
+        "(for the internet)",
+        "(some of them good)",
+        "(allegedly)",
+        "(of your tedious tasks)",
+        "(we're excited too)",
+        "(the useful kind)",
+        "(many, many things)",
+        "(within reason)",
+        "(???)"
+      ];
+      var wi = 0;
+      var rotator = document.getElementById("rotator");
+      var note = document.getElementById("rotator-note");
+      setInterval(function () {
+        wi = (wi + 1) % words.length;
+        rotator.textContent = words[wi];
+        note.textContent = notes[wi];
+        rotator.classList.add("pop");
+        setTimeout(function () { rotator.classList.remove("pop"); }, 120);
+      }, 2200);
+
+      // ---- marquee: duplicate track for seamless loop ----
+      var track = document.getElementById("marquee-track");
+      track.innerHTML += track.innerHTML;
+
+      // ---- logo click: cycle hero highlight color ----
+      var palette = ["#ffd02f", "#ff8fc7", "#b39cff", "#7eb9ff", "#5fd97b", "#ffa143"];
+      var pi = 0;
+      document.getElementById("logo").addEventListener("click", function (e) {
+        e.preventDefault();
+        pi = (pi + 1) % palette.length;
+        document.getElementById("hero-word").style.background = palette[pi];
+        document.getElementById("logo-box").style.background = palette[pi];
+      });
+
+      // ---- contact form: honest little joke ----
+      document.getElementById("the-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var noteBox = document.getElementById("form-note");
+        noteBox.style.display = "inline-block";
+      });
+    </script>
   </body>
 </html>
